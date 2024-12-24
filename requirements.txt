@@ -1,5 +1,5 @@
 ﻿asgiref==3.8.1
-Django==5.1.4
+Django==4.1.6
 django-autoslug==1.9.9
 django-taggit==6.1.0
 pillow==11.0.0
