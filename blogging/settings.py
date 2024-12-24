@@ -137,8 +137,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'kioshi5581@gmail.com'
-EMAIL_HOST_PASSWORD = 'jgmzalbzlbzfkxxr'
+EMAIL_HOST_USER = '############'
+EMAIL_HOST_PASSWORD = '########'
 EMAIL_USE_TLS = True
 
 PASSWORD_RESET_TIMEOUT_DAYS = 1
