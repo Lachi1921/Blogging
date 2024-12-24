@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block styling %}
+.img-post {
+height: 350px;
+}
+
+<!-- .custom-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.custom-pagination a,
+.custom-pagination span {
+  display: inline-block;
+  margin: 0 5px;
+  color: #fff;
+  background-color: #333;
+  padding: 5px 10px;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.custom-pagination a:hover {
+  background-color: #555;
+}
+
+.custom-pagination .active {
+  background-color: #555;
+} -->
+
+.no-posts {
+text-align: center;
+padding: 20px;
+}
+
+.no-posts h2 {
+font-size: 24px;
+}
+
+.no-posts p {
+font-size: 16px;
+}
+
+@media (max-width: 768px) {
+.no-posts {
+padding: 10px;
+}
+
+.no-posts h2 {
+font-size: 24px;
+}
+
+.no-posts p {
+font-size: 16px;
+}
+}
+{% endblock styling %}
+
+{% block content %}
+<div class="site-section bg-light">
+  <div class="container">
+    <div class="row align-items-stretch retro-layout-2">
+      <div class="col-md-4">
+        {% for post in posts|slice:":2" %}
+        <a href="{% url 'core:post_detail' post.slug %}" class="h-entry mb-30 v-height gradient"
+          style="background-image: url('{{ post.image.url }}');">
+          <div class="text">
+            <div class="post-categories mb-3">
+              <span class="post-category {{ random_button_class }}">{{ post.category }}</span>
+            </div>
+            <h2>{{ post.title|truncatechars:40 }}</h2>
+            <span class="date">{{ post.created_at }}</span>
+          </div>
+        </a>
+        {% empty %}
+        <div class="no-posts">
+          <h2>No posts available</h2>
+          <p>Check back later for updates.</p>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="col-md-4">
+        {% for post in posts|slice:"2:3" %}
+        <a href="{% url 'core:post_detail' post.slug %}" class="h-entry img-5 h-100 gradient"
+          style="background-image: url('{{ post.image.url }}');">
+          <div class="text">
+            <div class="post-categories mb-3">
+              <span class="post-category {{ random_button_class }}">{{ post.category }}</span>
+            </div>
+            <h2>{{ post.title|truncatechars:40 }}</h2>
+            <span class="date">{{ post.date }}</span>
+          </div>
+        </a>
+        {% empty %}
+        <div class="no-posts">
+          <h2>No posts available</h2>
+          <p>Check back later for updates.</p>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="col-md-4">
+        {% for post in posts|slice:"3:5" %}
+        <a href="{% url 'core:post_detail' post.slug %}" class="h-entry mb-30 v-height gradient"
+          style="background-image: url('{{ post.image.url }}');">
+          <div class="text">
+            <div class="post-categories mb-3">
+              <span class="post-category {{ random_button_class }}">{{ post.category }}</span>
+            </div>
+            <h2>{{ post.title|truncatechars:40 }}</h2>
+            <span class="date">{{ post.created_at }}</span>
+          </div>
+        </a>
+        {% empty %}
+        <div class="no-posts">
+          <h2>No posts available</h2>
+          <p>Check back later for updates.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-section">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12 text-center">
+        <h2>Recent Posts</h2>
+        {% if user.is_authenticated and user == post.author.user or user.is_superuser %}
+        <div class="mt-5">
+          <a href="{% url 'core:post_create' %}" class="btn btn-primary">Create Post</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row">
+      {% if posts %}
+      {% for post in posts|slice:":6" %}
+      <div class="col-lg-4 mb-4">
+        <div class="entry1">
+          <a href="{% url 'core:post_detail' post.slug %}">
+            <img src="{{ post.image.url }}" alt="Image" class="img-fluid rounded img-post">
+          </a>
+          <div class="excerpt">
+            <span class="post-category text-white bg-secondary mb-3">{{ post.category }}</span>
+            <h2><a href="{% url 'core:post_detail' post.slug %}">{{ post.title|truncatechars:50 }}</a></h2>
+            <div class="post-meta align-items-center text-left clearfix">
+              <figure class="author-figure mb-0 mr-3 float-left">
+                <img src="{{ post.author.profile_picture.url }}" alt="Image" class="img-fluid">
+              </figure>
+              <span class="d-inline-block mt-1">By <a href="{% url 'core:profile' post.author.user.username %}">{{ post.author.user.username|title }}</a></span>
+              <span>&nbsp;-&nbsp;{{ post.created_at|date:"F d, Y"|title }}</span>
+            </div>
+            <p>{{ post.content|truncatechars:100 }}</p>
+            <p><a href="{% url 'core:post_detail' post.slug %}">Read More</a></p>
+            {% if user.is_authenticated and user == post.author.user or user.is_superuser %}
+
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'core:post_edit' post.slug %}" class="btn btn-primary">Edit</a>
+              <form action="{% url 'core:post_delete' post.slug %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete">
+              </form>
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="no-posts col-md-12">
+        <div class="text-center">
+          <h2>No posts available</h2>
+          <p>Check back later for updates.</p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row text-center pt-5 border-top">
+    <div class="col-md-12">
+      {% if posts.has_other_pages %}
+      <div class="pagination">
+        {% if posts.has_previous %}
+        <a href="{% url 'core:homepage' %}" class="page-link">&laquo; First</a>
+        <a href="?page={{ posts.previous_page_number }}" class="page-link">&lsaquo; Previous</a>
+        {% endif %}
+
+        {% for page in posts.paginator.page_range %}
+        {% if page == posts.number %}
+        <a href="?page={{ page }}" class="page-link active">{{ page }}</a>
+        {% else %}
+        <a href="?page={{ page }}" class="page-link">{{ page }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+        <a href="?page={{ posts.next_page_number }}" class="page-link">Next &rsaquo;</a>
+        <a href="?page={{ posts.paginator.num_pages }}" class="page-link">Last &raquo;</a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+
+
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+{% endblock %}

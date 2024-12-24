@@ -1,0 +1,70 @@
+<style>
+  .search-form {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-input {
+    margin-right: 5px;
+  }
+
+  .search-button {
+    white-space: nowrap;
+  }
+</style>
+<div class="site-mobile-menu">
+  <div class="site-mobile-menu-header">
+    <div class="site-mobile-menu-close mt-3">
+      <span class="icon-close2 js-menu-toggle"></span>
+    </div>
+  </div>
+  <div class="site-mobile-menu-body"></div>
+</div>
+
+<header class="site-navbar" role="banner">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-4 site-logo">
+        <a href="/" class="text-black h2 mb-0">Mini Blog</a>
+      </div>
+      <div class="col-8 text-right">
+        <nav class="site-navigation" role="navigation">
+          <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
+            <li><a href="/">Home</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url "core:post_create" %}">Create post</a></li>
+
+            <li><a href="{% url 'core:settings' request.user.username %}">Settings</a></li>
+            <li><a href="{% url 'core:logout' %}">Logout</a></li>
+            {% endif %}
+            <li class="search-li">
+              <form action="{% url 'core:search' %}" method="GET" class="search-form text-black">
+                <div class="form-inline">
+                  <input type="text" class="form-control" name="query" placeholder="Search...">
+                  <button type="submit" class="btn btn-primary"><span class="icon-search"></span>Search</button>
+                </div>
+              </form>
+            </li>
+
+            {% if user.is_authenticated %}
+
+            <li class="dropdown">
+              <a href="{% url 'core:profile' user.username %}" class="dropdown-toggle" data-toggle="dropdown">
+                Logged in as: {{ user.username }}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{% url 'core:profile' user.username %}">Profile</a>
+                <a class="dropdown-item" href="/admin/">Admin Panel</a>
+              </div>
+            </li>
+
+            {% else %}
+            <li><a href="{% url 'core:login' %}">Login</a></li>
+            <li><a href="{% url 'core:signup' %}">Sign Up</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>

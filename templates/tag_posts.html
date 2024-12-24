@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block styling %}
+.post-content-body {
+  margin-top: 30px;
+}
+
+.post-content-body img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-details {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.post-meta {
+  margin-bottom: 10px;
+}
+
+.post-category {
+  margin-right: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.post-category:hover {
+  background-color: #0056b3;
+}
+
+.post-content {
+  margin-top: 30px;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #444;
+}
+
+.post-content p {
+  margin-bottom: 20px;
+}
+
+.post-content a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.post-content a:hover {
+  color: #0056b3;
+}
+
+.post-content blockquote {
+  margin: 30px 0;
+  padding: 20px;
+  border-left: 5px solid #007bff;
+  background-color: #f9f9f9;
+}
+
+.post-content blockquote p {
+  margin-bottom: 0;
+}
+
+.post-content pre {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #444;
+  overflow-x: auto;
+  font-family: monospace;
+}
+
+.post-content pre code {
+  display: block;
+  white-space: pre;
+}
+
+.main-image {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+}
+
+.sub-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+{% endblock styling %}
+
+{% block content %}
+
+<div class="site-section bg-white">
+  <div class="container">
+    <h1 class="mb-5">Posts in {{ tag.name }} tag</h1>
+    <div class="row mt-5">
+      {% for post in posts %}
+      <div class="col-lg-4 mb-4">
+        <div class="entry1">
+          <a href="{% url 'core:post_detail' post.slug %}"><img src="{{ post.image.url }}" alt="Image" class="img-fluid rounded img-post"></a>
+          <div class="excerpt">
+            <h2><a href="{% url 'core:post_detail' post.slug %}">{{ post.title|truncatechars:50 }}</a></h2>
+            <div class="post-meta align-items-center text-left clearfix">
+              <figure class="author-figure mb-0 mr-3 float-left"><img src="{{ post.author.profile_picture.url }}" alt="Image" class="img-fluid"></figure>
+              <span class="d-inline-block mt-1">By <a href="{% url "core:profile" post.author.user.username %}">{{ post.author.user.username|title }}</a></span>
+              <span>&nbsp;-&nbsp; {{ post.created_at }}</span>
+            </div>
+            <p>{{ post.content|truncatechars:200 }}</p>
+            <p><a href="{% url 'core:post_detail' post.slug %}">Read More</a></p>
+            {% if user.is_authenticated and user == post.author.user or user.is_superuser %}
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'core:post_edit' post.slug %}" class="btn btn-primary">Edit</a>
+              <form action="{% url 'core:post_delete' post.slug %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete">
+              </form>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+    
+  </div>
+</div>
+{% endblock %}

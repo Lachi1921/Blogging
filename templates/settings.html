@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"> -->
+<style>
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    font-weight: bold;
+  }
+
+  .form-group textarea {
+    height: 100px;
+  }
+
+  .form-group .form-hint {
+    color: #888;
+    font-size: 14px;
+  }
+
+  .form-group .form-error {
+    color: #e63946;
+    font-size: 14px;
+  }
+
+  .form-buttons {
+    text-align: right;
+  }
+
+  .form-buttons button {
+    padding: 7px 20px;
+    background-color: #ee0979;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .form-buttons button:hover {
+    background-color: #c3146d;
+  }
+
+  .form-buttons a {
+    padding: 10px 20px;
+    background-color: #ee0979;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .form-buttons a:hover {
+    background-color: #a30d5a;
+  }
+  
+</style>
+<div class="site-section bg-light">
+  <div class="container">
+    <h2 class="mb-3">Profile Settings</h2>
+    <div class="settings-form">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="{{ form.email.id_for_label }}">Email:</label>
+          <div class="input-field">
+            {{ form.email }}
+          </div>
+          {% if form.email.errors %}
+          <small class="text-danger">{{ form.email.errors }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.profile_picture.id_for_label }}">Profile Picture:</label>
+          {{ form.profile_picture }}
+          {% if form.profile_picture.errors %}
+          <small class="text-danger">{{ form.profile_picture.errors }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.description.id_for_label }}">Description:</label>
+          {{ form.description }}
+          {% if form.description.errors %}
+          <small class="text-danger">{{ form.description.errors }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.facebook.id_for_label }}">Facebook:</label>
+          {{ form.facebook }}
+          {% if form.facebook.errors %}
+          <small class="text-danger">{{ form.facebook.errors }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.twitter.id_for_label }}">Twitter:</label>
+          {{ form.twitter }}
+          {% if form.twitter.errors %}
+          <small class="text-danger">{{ form.twitter.errors }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.instagram.id_for_label }}">Instagram:</label>
+          {{ form.instagram }}
+          {% if form.instagram.errors %}
+          <small class="text-danger">{{ form.instagram.errors }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.youtube.id_for_label }}">YouTube:</label>
+          {{ form.youtube }}
+          {% if form.youtube.errors %}
+          <small class="text-danger">{{ form.youtube.errors }}</small>
+          {% endif %}
+        </div>
+        <div class="form-buttons">
+          <button type="submit" name="update_profile">Update Profile</button>
+        </div>
+      </form>
+    </div>
+
+
+    <hr>
+
+    <h2 class="mb-3">Security Settings</h2>
+
+    <div class="settings-form">
+      <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="{{ password_form.old_password.auto_id }}">Current Password:</label>
+          {{ password_form.old_password }}
+          {% if password_form.errors.old_password %}
+          <small class="text-danger">{{ password_form.errors.old_password.0 }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="{{ password_form.new_password1.auto_id }}">New Password:</label>
+          {{ password_form.new_password1 }}
+          {% if password_form.errors.new_password1 %}
+          <small class="text-danger">{{ password_form.errors.new_password1.0 }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="{{ password_form.new_password2.auto_id }}">Confirm New Password:</label>
+          {{ password_form.new_password2 }}
+          {% if password_form.errors.new_password2 %}
+          <small class="text-danger">{{ password_form.errors.new_password2.0 }}</small>
+          {% endif %}
+        </div>
+        <div class="form-buttons">
+          <button type="submit" name="change_password">Change Password</button>
+        </div>
+      </form>
+    </div>
+
+    <hr>
+
+    <h2 class="mb-3">Danger Zone</h2>
+    <div class="settings-form">
+      <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="delete-confirm" name="delete_confirm" required>
+          <label class="form-check-label" for="delete-confirm">Are you sure you want to delete your account?</label>
+        </div>
+        <div class="form-buttons">
+          <button type="submit" name="delete_account" onclick="return confirm('This action cannot be undone. Are you sure?')">Delete Account</button>
+        </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+</div>
+
+{% endblock %}

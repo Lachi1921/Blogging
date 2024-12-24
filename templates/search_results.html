@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="site-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+          {% if posts %}
+            <div class="row">
+              {% for post in posts %}
+                <div class="col-md-6 col-lg-4 mb-5">
+                  <div class="blog-entry">
+                    <a href="{% url 'core:post_detail' post.slug %}" class="img-link">
+                      <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid">
+                    </a>
+                    <div class="text p-4">
+                      <h3 class="heading"><a href="{% url 'core:post_detail' post.slug %}">{{ post.title }}</a></h3>
+                      <p>{{ post.content }}</p>
+                      <div class="meta">
+                        <a href="{% url 'core:post_detail' post.slug %}" class="mr-2">{{ post.created_at|date:"F d, Y" }}</a>
+                        <a href="{% url 'core:post_detail' post.slug %}" class="meta-chat"><span class="icon-chat"></span> {{ post.comments.count }}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p>No results found.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+<!-- post_create.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Create Post</h2>
+            <form method="post" enctype="multipart/form-data">
+                <p>{{ form.non_field_errors }}</p>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}">Title:</label>
+                    <input type="text" class="form-control" name="{{ form.title.html_name }}" id="{{ form.title.auto_id }}">
+                    {% if form.title.errors %}
+                    <small class="text-danger">{{ form.title.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.content.id_for_label }}">Content:</label>
+                    <textarea class="form-control" name="{{ form.content.html_name }}"
+                        id="{{ form.content.auto_id }}"></textarea>
+                    {% if form.content.errors %}
+                    <small class="text-danger">{{ form.content.errors }}</small>
+                    {% endif %}
+                </div>
+
+
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}">Category:</label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                    <small class="text-danger">{{ form.category.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.tags.id_for_label }}">Tags:</label>
+                    <input type="text" class="form-control" name="tags" id="{{ tag.id_for_label }}">
+                    {% if form.tags.errors %}
+                    <small class="text-danger">{{ form.tags.errors }}</small>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.image.id_for_label }}">Image:</label>
+                    <input type="file" name="image" id="id_image" accept="image/*">
+                    {% if form.image.errors %}
+                    <small class="text-danger">{{ form.image.errors }}</small>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Create Post</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

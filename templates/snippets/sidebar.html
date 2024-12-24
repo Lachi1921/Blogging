@@ -1,0 +1,65 @@
+<div class="sidebar-container">
+  <div class="sidebar-box">
+    <div class="bio text-center">
+      <img src="{{ post.author.profile_picture.url }}" alt="Image Placeholder" class="img-fluid mb-5">
+      <div class="bio-body">
+        <h2>{{ post.author.user.username|title }}</h2>
+        <p class="mb-4">{{ post.author.description|truncatechars:100 }}</p>
+        <p><a href="{% url 'core:profile' post.author.user.username %}"
+            class="btn btn-primary btn-sm rounded px-4 py-2">Read more</a></p>
+        <p class="social">
+          {% if post.author.facebook %}
+          <a href="{{ post.author.facebook }}" class="p-2"><span class="fa fa-facebook"></span></a>
+          {% endif %}
+          {% if post.author.twitter %}
+          <a href="{{ post.author.twitter }}" class="p-2"><span class="fa fa-twitter"></span></a>
+          {% endif %}
+          {% if post.author.instagram %}
+          <a href="{{ post.author.instagram }}" class="p-2"><span class="fa fa-instagram"></span></a>
+          {% endif %}
+          {% if post.author.youtube %}
+          <a href="{{ post.author.youtube }}" class="p-2"><span class="fa fa-youtube-play"></span></a>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    <h3 class="heading">Popular Posts</h3>
+    <div class="post-entry-sidebar">
+      <ul>
+        {% for popular_post in popular_posts %}
+        <li>
+          <a href="{% url 'core:post_detail' popular_post.slug %}">
+            <img src="{{ popular_post.image.url }}" alt="Image placeholder" class="mr-4">
+            <div class="text">
+              <h4>{{ popular_post.title }}</h4>
+              <div class="post-meta">
+                <span class="mr-2">{{ popular_post.created_at|date:"M d, Y" }}</span>
+              </div>
+            </div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="sidebar-box">
+      <h3 class="heading">Categories</h3>
+      <ul class="categories">
+        {% for category in categories %}
+        <li><a href="{% url 'core:category-posts' category.name %}">{{ category.name }} <span>({{ category.post_count}})</span></a></li>
+        {% endfor %}
+
+
+      </ul>
+
+      <h3 class="heading">Tags</h3>
+      <ul class="tags">
+        {% for tag in tags %}
+
+        <li><a href="{% url 'core:tag-posts' tag.name %}">{{ tag.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
