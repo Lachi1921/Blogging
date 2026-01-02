@@ -2,13 +2,13 @@
 
 [![Python](https://img.shields.io/badge/python-%3E%3D3.8-blue)]()
 
-A Django-based web application for blogging. It allows users to create, edit, and manage blog posts, organize content by categories and tags, comment on posts, and search for content. The admin interface provides tools for user management, post moderation, and content organization. The project uses Django templates for frontend rendering, static assets for styling and interactivity, and a modular Python backend to handle business logic. The full stack involves Python, Django, HTML, CSS, and JavaScript.
+A Django-based web application for blogging. It allows users to create, edit, and manage blog posts, organize content by categories and tags, comment on posts, and search for content. The admin interface provides tools for user management, post moderation, and content organization. Uses Django HTML/CSS templates for frontend rendering, static assets for styling and interactivity, and a modular Python backend to handle business logic. The full stack involves Python, Django, HTML, CSS, and JavaScript.
 
 ---
 
 ## Overview
 
-Blogging Website enables users to:
+Blogging Website allows users to:
 
 * Manage **blog posts** with full CRUD functionality
 * Handle **user authentication and roles**
